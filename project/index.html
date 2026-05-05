@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bizon Soluciones Industriales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body, #root { height: 100%; }
+    body {
+      font-family: 'Barlow', system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    .hero-title {
+      letter-spacing: -0.03em;
+      line-height: 0.9;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #F26A00; border-radius: 2px; }
+    a { text-decoration: none; color: inherit; }
+    .pill-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(20,20,20,0.92);
+      backdrop-filter: blur(16px);
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-link {
+      color: rgba(255,255,255,0.65);
+      font-size: 13px;
+      font-family: 'Barlow', sans-serif;
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: 999px;
+      transition: color 0.2s, background 0.2s;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+    }
+    .nav-link:hover { color: #fff; background: rgba(242,106,0,0.15); }
+    .cta-btn {
+      background: #F26A00;
+      color: #fff;
+      font-family: 'Barlow', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      border-radius: 999px;
+      padding: 12px 24px;
+      cursor: pointer;
+      border: none;
+      letter-spacing: 0.02em;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .cta-btn:hover { background: #d95e00; transform: translateY(-1px); }
+    .service-card {
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 32px 28px;
+      transition: border-color 0.25s, background 0.25s, transform 0.25s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: #F26A00;
+      transition: height 0.3s ease;
+    }
+    .service-card:hover { border-color: rgba(242,106,0,0.35); background: #161616; transform: translateY(-3px); }
+    .service-card:hover::before { height: 100%; }
+    .service-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: #F26A00;
+      margin-bottom: 14px;
+    }
+    .service-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 1.15;
+      margin-bottom: 10px;
+      letter-spacing: 0.01em;
+      color: #fff;
+    }
+    .service-desc {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: rgba(255,255,255,0.5);
+      font-weight: 400;
+    }
+    .sector-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid rgba(242,106,0,0.4);
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .sector-pill:hover { background: rgba(242,106,0,0.12); color: #fff; border-color: #F26A00; }
+    .slide-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: opacity 1.2s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.9s ease both; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes kenBurns {
+      0%   { transform: scale(1.08) translate(0%, 0%); }
+      50%  { transform: scale(1.14) translate(-1.5%, -1%); }
+      100% { transform: scale(1.08) translate(0%, 0%); }
+    }
+    .slide-img.active {
+      animation: kenBurns 8s ease-in-out infinite;
+    }
+    @media (max-width: 768px) {
+      .nav-center { display: none !important; }
+      .hero-stagger { font-size: 17vw !important; }
+    }
+
+    /* ── Parallax reveal ── */
+    .plx-section {
+      will-change: transform, opacity;
+    }
+    .plx-inner {
+      will-change: transform;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+
+
+const { useState, useEffect, useRef, useCallback } = React;
+
+// ── Parallax reveal hook ──
+// Each section slides up from below + fades in as it enters the viewport.
+// The parallax layer inside moves at a slower rate as you scroll past.
+function useParallax(speed = 0.18) {
+  const sectionRef = useRef(null);
+  const innerRef   = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const inner   = innerRef.current;
+    if (!section) return;
+
+    let entered = false;
+    let raf = null;
+
+    // Initial hidden state
+    section.style.opacity   = '0';
+    section.style.transform = 'translateY(48px)';
+    section.style.transition = 'opacity 0.85s cubic-bezier(0.22,1,0.36,1), transform 0.85s cubic-bezier(0.22,1,0.36,1)';
+
+    const reveal = () => {
+      if (entered) return;
+      entered = true;
+      section.style.opacity   = '1';
+      section.style.transform = 'translateY(0)';
+    };
+
+    const onScroll = () => {
+      if (!entered) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.88) reveal();
+      }
+      // Parallax inner layer
+      if (inner) {
+        const rect   = section.getBoundingClientRect();
+        const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+        inner.style.transform = `translateY(${center * speed}px)`;
+      }
+    };
+
+    // Check immediately (in case already visible on load)
+    onScroll();
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [speed]);
+
+  return { sectionRef, innerRef };
+}
+
+const HERO_VIDEO = "uploads/jxp-veo3-video-1777621396951.mp4";
+
+const SERVICES = [
+{
+  title: "Piletas Industriales",
+  desc: "Reacondicionamiento estructural y eléctrico de piletas para acumulación de fluidos, lodos y testing.",
+  icon: "◈"
+},
+{
+  title: "Estructuras Metálicas",
+  desc: "Fabricación y reacondicionamiento de estructuras, soportes, escaleras, barandas y bandejas antiderrame.",
+  icon: "⬡"
+},
+{
+  title: "Módulos Habitacionales",
+  desc: "Reacondicionamiento de módulos habitacionales y oficinas móviles, simples o con tren rodante.",
+  icon: "▣"
+},
+{
+  title: "Instalaciones Antiexplosivas",
+  desc: "Reacondicionamiento y fabricación de instalaciones eléctricas antiexplosivas certificadas.",
+  icon: "⚡"
+},
+{
+  title: "Tableros Eléctricos",
+  desc: "Reacondicionamiento y fabricación de tableros de distribución, control y potencia.",
+  icon: "▦"
+},
+{
+  title: "Grupos Electrógenos",
+  desc: "Reacondicionamiento y reparación de grupos electrógenos hasta 1.000 kVA.",
+  icon: "◉"
+},
+{
+  title: "Motores y Bombas",
+  desc: "Mantenimiento, bobinados y cambio de rodamientos de motores eléctricos y bombas hasta 500 HP.",
+  icon: "⟳"
+},
+{
+  title: "Maquinaria Vial",
+  desc: "Reparaciones de maquinaria vial: uñas, baldes, chasis y modificaciones generales.",
+  icon: "◧"
+}];
+
+
+const SECTORS = [
+"Oil & Gas",
+"Minería",
+"Energía",
+"Construcción Industrial",
+"Empresas Constructoras",
+"Contratistas de Campo"];
+
+
+function Navbar({ scrolled }) {
+  return (
+    <nav style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+      padding: scrolled ? '14px 24px' : '20px 28px',
+      transition: 'padding 0.3s',
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16
+    }}>
+          {/* Logo pill */}
+          <div className="pill-btn" style={{ padding: '10px 20px 10px 14px' }}>
+            <img
+          src="uploads/logo_principal_horizontal.png"
+          alt="Bizon Soluciones Industriales"
+          style={{ height: 48, width: 'auto' }} />
+        
+          </div>
+
+          {/* Center nav */}
+          <div className="pill-btn nav-center" style={{ padding: '6px' }}>
+            {["Servicios", "Sectores", "Nosotros", "Contacto"].map((l) =>
+        <a key={l} className="nav-link"
+        href={`#${l.toLowerCase()}`}
+        onClick={(e) => {
+          e.preventDefault();
+          document.querySelector(`#${l.toLowerCase()}`)?.scrollIntoView({ behavior: 'smooth' });
+        }}>
+          {l}</a>
+        )}
+          </div>
+
+          {/* CTA */}
+          <button className="cta-btn" onClick={() => document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' })}>
+            Solicitar Presupuesto
+          </button>
+        </nav>);
+
+}
+
+function Hero() {
+  return (
+    <section style={{ position: 'relative', height: '100vh', width: '100%', overflow: 'hidden', background: '#0a0a0a' }}>
+          {/* BG video */}
+          <video
+        src={HERO_VIDEO}
+        autoPlay loop muted playsInline
+        style={{
+          position: 'absolute', inset: 0,
+          width: '100%', height: '100%',
+          objectFit: 'cover', zIndex: 1
+        }} />
+      
+
+          {/* Dark overlay */}
+          <div style={{ position: 'absolute', inset: 0, zIndex: 2,
+        background: 'linear-gradient(135deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.42) 55%, rgba(0,0,0,0.72) 100%)' }} />
+
+          {/* Bottom gradient */}
+          <div style={{ pointerEvents: 'none', position: 'absolute', bottom: 0, left: 0, right: 0, height: 192, zIndex: 3,
+        background: 'linear-gradient(to bottom, transparent, #0a0a0a)' }} />
+
+          {/* ── Foreground content ── */}
+          <div style={{ position: 'relative', zIndex: 4, height: '100%', width: '100%' }}>
+
+            {/* Stat — top right */}
+            <div style={{ position: 'absolute', right: 40, top: '14%', textAlign: 'right' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'flex-end' }}>
+                <div className="diag-divider" style={{ width: 96, height: 1, background: 'rgba(255,255,255,0.35)', transform: 'rotate(20deg)' }} />
+                <span style={{ fontFamily: 'Barlow Condensed', fontWeight: 800,
+              fontSize: 'clamp(30px,3.8vw,48px)', letterSpacing: '-0.03em' }}>+10 años</span>
+              </div>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', marginTop: 6, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                de experiencia
+              </div>
+            </div>
+
+            {/* Word 1 — top left */}
+            <h1 className="hero-title hero-stagger" style={{
+          position: 'absolute', left: 40, top: '18%',
+          fontSize: 'clamp(68px,13vw,172px)', color: '#fff'
+        }}>fuerza</h1>
+
+            {/* Word 2 — right */}
+            <h1 className="hero-title hero-stagger" style={{
+          position: 'absolute', right: 40, top: '38%',
+          fontSize: 'clamp(68px,13vw,172px)', color: '#F26A00',
+          textShadow: '0 0 100px rgba(242,106,0,0.25)'
+        }}>industrial</h1>
+
+            {/* Description — sits below word 1, above word 3 */}
+            <p style={{
+          position: 'absolute', left: 40, top: '47%',
+          maxWidth: 240, fontSize: 14, lineHeight: 1.7,
+          color: 'rgba(255,255,255,0.7)', fontWeight: 300
+        }}>
+              Reacondicionamiento, fabricación y mantenimiento para las industrias más exigentes del país.
+            </p>
+
+            {/* Word 3 — center-left outline */}
+            <h1 className="hero-title hero-stagger" style={{
+          position: 'absolute', left: '18%', top: '59%',
+          fontSize: 'clamp(68px,13vw,172px)',
+          color: 'transparent',
+          WebkitTextStroke: '2px rgba(255,255,255,0.22)'
+        }}>real</h1>
+
+            {/* Stat — bottom left */}
+            <div style={{ position: 'absolute', left: 40, bottom: 90 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ fontFamily: 'Barlow Condensed', fontWeight: 800,
+              fontSize: 'clamp(26px,3.2vw,42px)', letterSpacing: '-0.03em' }}>+8 rubros</span>
+                <div className="diag-divider" style={{ width: 96, height: 1, background: 'rgba(255,255,255,0.35)', transform: 'rotate(-20deg)' }} />
+              </div>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginTop: 5,
+            textTransform: 'uppercase', letterSpacing: '0.07em' }}>servicios especializados</div>
+            </div>
+
+            {/* Stat — bottom right */}
+            <div style={{ position: 'absolute', right: 40, bottom: 72, textAlign: 'right' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'flex-end' }}>
+                <div className="diag-divider" style={{ width: 96, height: 1, background: 'rgba(255,255,255,0.35)', transform: 'rotate(-20deg)' }} />
+                <span style={{ fontFamily: 'Barlow Condensed', fontWeight: 800,
+              fontSize: 'clamp(26px,3.2vw,42px)', letterSpacing: '-0.03em', opacity: "50", color: "rgb(80, 75, 75)" }}>1.000 kVA</span>
+              </div>
+              <div style={{ fontSize: 12, marginTop: 5,
+            textTransform: 'uppercase', letterSpacing: '0.07em', textAlign: 'right', color: "rgb(80, 79, 79)" }}>cap. en electrógenos</div>
+            </div>
+
+            {/* Slide dots — removed (video hero) */}
+          </div>
+        </section>);
+
+}
+
+function Services() {
+  const { sectionRef } = useParallax(0.12);
+  return (
+    <section ref={sectionRef} id="servicios" style={{ padding: '100px 28px', background: '#0a0a0a' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            {/* Header */}
+            <div style={{ marginBottom: 64 }}>
+              <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10,
+            background: 'rgba(242,106,0,0.1)', border: '1px solid rgba(242,106,0,0.3)',
+            borderRadius: 999, padding: '6px 16px', marginBottom: 20
+          }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#F26A00', display: 'block' }} />
+                <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#F26A00' }}>
+                  Lo que hacemos
+                </span>
+              </div>
+              <h2 style={{
+            fontFamily: 'Barlow Condensed', fontWeight: 900, textTransform: 'uppercase',
+            fontSize: 'clamp(48px,7vw,92px)', letterSpacing: '-0.02em', lineHeight: 0.9,
+            color: '#fff'
+          }}>
+                Servicios<br />
+                <span style={{ color: '#F26A00' }}>Industriales</span>
+              </h2>
+            </div>
+
+            {/* Grid */}
+            <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+          gap: 16
+        }}>
+              {SERVICES.map((s, i) =>
+          <div key={i} className="service-card">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14 }}>
+                    <div className="service-num">0{i + 1}</div>
+                    <img src="uploads/isotipo_bizon.png" alt="" style={{ height: 28, width: 'auto', opacity: 0.18, filter: 'brightness(10)' }} />
+                  </div>
+                  <div className="service-title">{s.title}</div>
+                  <div className="service-desc">{s.desc}</div>
+                </div>
+          )}
+            </div>
+          </div>
+        </section>);
+
+}
+
+function Sectors() {
+  const { sectionRef } = useParallax(0.10);
+  return (
+    <section ref={sectionRef} id="sectores" style={{ padding: '80px 28px', background: '#080808', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 40, justifyContent: 'space-between' }}>
+              <div>
+                <p style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 12 }}>
+                  Industrias que atendemos
+                </p>
+                <h3 style={{
+              fontFamily: 'Barlow Condensed', fontWeight: 800, fontSize: 'clamp(32px,4vw,52px)',
+              letterSpacing: '-0.02em', textTransform: 'uppercase'
+            }}>
+                  Sectores
+                </h3>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                {SECTORS.map((s) =>
+            <span key={s} className="sector-pill">{s}</span>
+            )}
+              </div>
+            </div>
+
+
+          </div>
+        </section>);
+
+}
+
+function Gallery() {
+  const { sectionRef } = useParallax(0.08);
+  return (
+    <section ref={sectionRef} style={{ padding: '0', overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', height: 340 }}>
+            {[
+        "uploads/soldador_2.png",
+        "uploads/ChatGPT Image 24 abr 2026, 11_57_37.png",
+        "uploads/viales.png"].
+        map((src, i) =>
+        <div key={i} style={{ overflow: 'hidden', position: 'relative' }}>
+                <img src={src} alt="" style={{
+            width: '100%', height: '100%', objectFit: 'cover',
+            filter: 'brightness(0.75) saturate(0.85)',
+            transition: 'transform 0.6s ease', opacity: "80"
+          }} onMouseEnter={(e) => e.target.style.transform = 'scale(1.04)'}
+          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'} />
+              </div>
+        )}
+          </div>
+        </section>);
+
+}
+
+function About() {
+  const { sectionRef } = useParallax(0.12);
+  return (
+    <section ref={sectionRef} id="nosotros" style={{ padding: '100px 28px', background: '#0a0a0a' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+            <div>
+              <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10,
+            background: 'rgba(242,106,0,0.1)', border: '1px solid rgba(242,106,0,0.3)',
+            borderRadius: 999, padding: '6px 16px', marginBottom: 24
+          }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#F26A00', display: 'block' }} />
+                <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#F26A00' }}>
+                  Quiénes somos
+                </span>
+              </div>
+              <h2 style={{
+            fontFamily: 'Barlow Condensed', fontWeight: 900, textTransform: 'uppercase',
+            fontSize: 'clamp(40px,6vw,78px)', letterSpacing: '-0.02em', lineHeight: 0.92,
+            marginBottom: 28
+          }}>
+                Experiencia<br />que se nota<br />
+                <span style={{ color: '#F26A00' }}>en campo</span>
+              </h2>
+              <p style={{ fontSize: 15.5, lineHeight: 1.75, color: 'rgba(255,255,255,0.6)', fontWeight: 300, marginBottom: 20 }}>
+                Bizon Soluciones Industriales opera en el corazón de las industrias más exigentes de Argentina. Nos especializamos en reacondicionamiento, fabricación y mantenimiento de equipos e infraestructura crítica.
+              </p>
+              <p style={{ fontSize: 15.5, lineHeight: 1.75, color: 'rgba(255,255,255,0.6)', fontWeight: 300 }}>
+                Nuestro equipo trabaja en bases operativas, talleres, campamentos y sitios industriales con grupos electrógenos, motores, tableros e infraestructura de alta exigencia.
+              </p>
+              <div style={{ marginTop: 36, display: 'flex', gap: 16 }}>
+                <button className="cta-btn" onClick={() => document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' })}>
+                  Trabajemos juntos
+                </button>
+              </div>
+            </div>
+
+            {/* Stats column */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2 }}>
+              {[
+          { n: "+10", label: "años de experiencia" },
+          { n: "8", label: "líneas de servicio" },
+          { n: "1.000", label: "kVA en electrógenos" },
+          { n: "500", label: "HP en motores y bombas" }].
+          map(({ n, label }, i) =>
+          <div key={i} style={{
+            padding: '36px 28px',
+            background: i % 2 === 0 ? '#111' : '#0e0e0e',
+            borderRadius: i === 0 ? '12px 0 0 0' : i === 1 ? '0 12px 0 0' : i === 2 ? '0 0 0 12px' : '0 0 12px 0'
+          }}>
+                  <div style={{
+              fontFamily: 'Barlow Condensed', fontWeight: 900, fontSize: 'clamp(36px,4vw,56px)',
+              letterSpacing: '-0.02em', color: '#F26A00', lineHeight: 1
+            }}>{n}</div>
+                  <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', marginTop: 8, lineHeight: 1.4 }}>{label}</div>
+                </div>
+          )}
+            </div>
+          </div>
+        </section>);
+
+}
+
+function Contact() {
+  const { sectionRef } = useParallax(0.10);
+  const [form, setForm] = useState({ nombre: '', empresa: '', email: '', mensaje: '' });
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSent(true);
+  };
+
+  return (
+    <section ref={sectionRef} id="contacto" style={{ padding: '100px 28px', background: '#080808', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <div style={{ maxWidth: 860, margin: '0 auto' }}>
+            {/* Header */}
+            <div style={{ textAlign: 'center', marginBottom: 64 }}>
+              <img src="uploads/isotipo_bizon.png" alt="Bizon" style={{ height: 64, marginBottom: 24 }} />
+              <h2 style={{
+            fontFamily: 'Barlow Condensed', fontWeight: 900, textTransform: 'uppercase',
+            fontSize: 'clamp(44px,7vw,88px)', letterSpacing: '-0.02em', lineHeight: 0.9,
+            marginBottom: 16
+          }}>
+                Hablemos<br /><span style={{ color: '#F26A00' }}>de tu proyecto</span>
+              </h2>
+              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', maxWidth: 460, margin: '0 auto', lineHeight: 1.65 }}>
+                Contanos qué necesitás y un especialista de Bizon te contactará para evaluar la solución más eficiente.
+              </p>
+            </div>
+
+            {sent ?
+        <div style={{ textAlign: 'center', padding: '60px 0' }}>
+                <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
+                <h3 style={{ fontFamily: 'Barlow Condensed', fontSize: 32, fontWeight: 700, marginBottom: 8 }}>¡Mensaje enviado!</h3>
+                <p style={{ color: 'rgba(255,255,255,0.5)' }}>Te contactaremos a la brevedad.</p>
+              </div> :
+
+        <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 16 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                  {[
+            { key: 'nombre', label: 'Nombre completo', placeholder: 'Juan García' },
+            { key: 'empresa', label: 'Empresa', placeholder: 'Nombre de tu empresa' }].
+            map(({ key, label, placeholder }) =>
+            <div key={key}>
+                      <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 8 }}>{label}</label>
+                      <input
+                type="text" placeholder={placeholder} required
+                value={form[key]}
+                onChange={(e) => setForm((f) => ({ ...f, [key]: e.target.value }))}
+                style={{
+                  width: '100%', padding: '14px 16px', background: '#111',
+                  border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
+                  color: '#fff', fontSize: 14, fontFamily: 'Barlow', outline: 'none',
+                  transition: 'border-color 0.2s'
+                }}
+                onFocus={(e) => e.target.style.borderColor = 'rgba(242,106,0,0.5)'}
+                onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.1)'} />
+              
+                    </div>
+            )}
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 8 }}>Email</label>
+                  <input
+              type="email" placeholder="tu@empresa.com" required
+              value={form.email}
+              onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+              style={{
+                width: '100%', padding: '14px 16px', background: '#111',
+                border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
+                color: '#fff', fontSize: 14, fontFamily: 'Barlow', outline: 'none',
+                transition: 'border-color 0.2s'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'rgba(242,106,0,0.5)'}
+              onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.1)'} />
+            
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: 8 }}>¿Qué necesitás?</label>
+                  <textarea
+              placeholder="Describí brevemente el trabajo o equipo que necesitás intervenir..." required
+              rows={4}
+              value={form.mensaje}
+              onChange={(e) => setForm((f) => ({ ...f, mensaje: e.target.value }))}
+              style={{
+                width: '100%', padding: '14px 16px', background: '#111',
+                border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
+                color: '#fff', fontSize: 14, fontFamily: 'Barlow', outline: 'none',
+                resize: 'vertical', transition: 'border-color 0.2s'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'rgba(242,106,0,0.5)'}
+              onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.1)'} />
+            
+                </div>
+                <button type="submit" className="cta-btn" style={{ width: '100%', padding: '16px', fontSize: 15 }}>
+                  Enviar consulta →
+                </button>
+              </form>
+        }
+          </div>
+        </section>);
+
+}
+
+function Footer() {
+  return (
+    <footer style={{ padding: '40px 28px', background: '#050505', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20 }}>
+            <img src="uploads/logo_principal_horizontal.png" alt="Bizon" style={{ height: 28 }} />
+            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>
+              © 2025 Bizon Soluciones Industriales. Todos los derechos reservados.
+            </p>
+            <div style={{ display: 'flex', gap: 24 }}>
+              {["Servicios", "Sectores", "Contacto"].map((l) =>
+          <a key={l} href={`#${l.toLowerCase()}`}
+          onClick={(e) => {e.preventDefault();document.querySelector(`#${l.toLowerCase()}`)?.scrollIntoView({ behavior: 'smooth' });}}
+          style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.04em', transition: 'color 0.2s' }}
+          onMouseEnter={(e) => e.target.style.color = '#F26A00'}
+          onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.35)'}>
+            {l}</a>
+          )}
+            </div>
+          </div>
+        </footer>);
+
+}
+
+function App() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <div>
+          <Navbar scrolled={scrolled} />
+          <Hero />
+          <Services />
+          <Gallery />
+          <Sectors />
+          <About />
+          <Contact />
+          <Footer />
+        </div>);
+
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
