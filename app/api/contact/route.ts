@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
+
+export const runtime = 'edge'
 
 // In-memory rate limiter: 5 requests per IP per minute
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
@@ -23,13 +25,7 @@ function sanitize(val: unknown, maxLen = 2000): string {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-})
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: NextRequest) {
   const ip =
@@ -58,11 +54,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Email inválido' }, { status: 400 })
   }
 
-  const recipient = process.env.CONTACT_EMAIL ?? process.env.GMAIL_USER
+  const recipient = process.env.CONTACT_EMAIL ?? 'info@bizon.com.ar'
 
   try {
-    await transporter.sendMail({
-      from: `"Bizon Web" <${process.env.GMAIL_USER}>`,
+    await resend.emails.send({
+      from: 'Bizon Web <onboarding@resend.dev>',
       to: recipient,
       replyTo: email,
       subject: `Nueva consulta de ${nombre}${empresa ? ` — ${empresa}` : ''}`,
