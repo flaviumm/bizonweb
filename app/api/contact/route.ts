@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
 
   try {
     await resend.emails.send({
-      from: 'Bizon Web <onboarding@resend.dev>',
+      from: 'Bizon Web <info@bizon.com.ar>',
       to: recipient,
       replyTo: email,
       subject: `Nueva consulta de ${nombre}${empresa ? ` — ${empresa}` : ''}`,
