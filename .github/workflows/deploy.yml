@@ -21,7 +21,17 @@ jobs:
 
       - run: npm ci
 
-      - run: npx @cloudflare/next-on-pages@1
+      - name: Install Vercel CLI
+        run: npm install -g vercel@47.0.4
+
+      - name: Build (vercel build)
+        run: vercel build --prod
+        env:
+          VERCEL_ORG_ID: none
+          VERCEL_PROJECT_ID: none
+
+      - name: Transform for Cloudflare
+        run: npx @cloudflare/next-on-pages@1 --skip-builds
         env:
           NODE_ENV: production
 
