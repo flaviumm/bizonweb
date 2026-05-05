@@ -169,6 +169,62 @@ a { text-decoration: none; color: inherit; }
   100% { transform: scale(1.08) translate(0%, 0%); }
 }
 
+.fab-group {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fab-wrap { position: relative; }
+
+.fab {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s, border-color 0.2s, box-shadow 0.25s;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.fab:hover {
+  background: #F26A00;
+  border-color: #F26A00;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 24px rgba(242, 106, 0, 0.45);
+}
+
+.fab-tooltip {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  font-family: var(--font-barlow), sans-serif;
+  font-weight: 500;
+}
+
+.fab:hover .fab-tooltip { opacity: 1; }
+
 @media (max-width: 768px) {
   .nav-center { display: none !important; }
   .hero-stagger { font-size: 17vw !important; }
