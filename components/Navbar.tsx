@@ -26,9 +26,9 @@ export default function Navbar() {
       <div className="pill-btn" style={{ padding: '10px 20px 10px 14px' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/uploads/logo_negativo_naranja.svg"
+          src="/uploads/logo_principal_horizontal.png"
           alt="Bizon Soluciones Industriales"
-          style={{ height: 62, width: 'auto' }}
+          style={{ height: 81, width: 'auto' }}
         />
       </div>
 
