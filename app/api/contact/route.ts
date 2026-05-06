@@ -25,9 +25,8 @@ function sanitize(val: unknown, maxLen = 2000): string {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function POST(req: NextRequest) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
   const ip =
     req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
     req.headers.get('x-real-ip') ??
