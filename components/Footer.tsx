@@ -17,7 +17,7 @@ export default function Footer() {
         flexWrap: 'wrap', gap: 20,
       }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/uploads/logo_principal_horizontal.png" alt="Bizon" style={{ height: 28 }} />
+        <img src="/uploads/logo_negativo_naranja.svg" alt="Bizon" style={{ height: 36, width: 'auto' }} />
         <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.04em' }}>
           © 2025 Bizon Soluciones Industriales. Todos los derechos reservados.
         </p>
