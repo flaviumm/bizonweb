@@ -36,6 +36,18 @@ export default function Footer() {
           ))}
           <span style={{ width: 1, height: 14, background: 'rgba(255,255,255,0.1)', margin: '0 4px' }} />
           <a
+            href="mailto:info@bizon.com.ar"
+            aria-label="Email"
+            style={{ display: 'inline-flex', color: 'rgba(255,255,255,0.4)', transition: 'color 0.2s' }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#F26A00')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="m22 7-10 7L2 7" />
+            </svg>
+          </a>
+          <a
             href="https://www.linkedin.com/company/somosbizon/"
             target="_blank" rel="noopener" aria-label="LinkedIn"
             style={{ display: 'inline-flex', color: 'rgba(255,255,255,0.4)', transition: 'color 0.2s' }}
