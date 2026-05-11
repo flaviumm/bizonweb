@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
       from: 'Bizon Web <info@bizon.com.ar>',
       to: recipient,
       replyTo: email,
-      subject: `Nueva consulta de ${nombre}${empresa ? ` — ${empresa}` : ''}`,
+      subject: `Consulta desde la web — ${nombre}${empresa ? ` (${empresa})` : ''}`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;padding:32px;border-radius:8px">
           <div style="background:#111;padding:20px 32px;border-radius:8px 8px 0 0;margin:-32px -32px 32px;text-align:center">
