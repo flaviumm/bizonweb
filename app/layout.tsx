@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: 'Bizon Soluciones Industriales',
   description:
     'Reacondicionamiento, fabricación y mantenimiento para las industrias más exigentes del país.',
+  icons: { icon: '/icon.png' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
