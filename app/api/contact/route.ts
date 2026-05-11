@@ -63,8 +63,8 @@ export async function POST(req: NextRequest) {
       subject: `Nueva consulta de ${nombre}${empresa ? ` — ${empresa}` : ''}`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;padding:32px;border-radius:8px">
-          <div style="background:#F26A00;padding:20px 32px;border-radius:8px 8px 0 0;margin:-32px -32px 32px">
-            <h1 style="color:#fff;margin:0;font-size:20px">Nueva consulta — Bizon Web</h1>
+          <div style="background:#111;padding:20px 32px;border-radius:8px 8px 0 0;margin:-32px -32px 32px;text-align:center">
+            <img src="https://bizon.com.ar/uploads/logo_principal_horizontal.png" alt="Bizon Soluciones Industriales" style="height:48px;width:auto" />
           </div>
           <table style="width:100%;border-collapse:collapse">
             <tr><td style="padding:8px 0;color:#666;width:120px">Nombre</td><td style="padding:8px 0;font-weight:600">${nombre}</td></tr>
