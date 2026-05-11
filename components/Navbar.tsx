@@ -20,10 +20,11 @@ export default function Navbar() {
     <nav style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
       padding: scrolled ? '14px 24px' : '20px 28px',
-      transition: 'padding 0.3s',
+      transition: 'padding 0.3s, background-color 0.3s',
       display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
+      backgroundColor: '#000',
     }}>
-      <div className="pill-btn" style={{ padding: '10px 20px 10px 14px' }}>
+      <div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/uploads/logo_principal_horizontal.png"
@@ -32,7 +33,7 @@ export default function Navbar() {
         />
       </div>
 
-      <div className="pill-btn nav-center" style={{ padding: '6px' }}>
+      <div className="nav-center" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
         {['Servicios', 'Sectores', 'Nosotros', 'Contacto'].map((l) => (
           <a key={l} className="nav-link" href={`#${l.toLowerCase()}`} onClick={scrollTo(l.toLowerCase())}>
             {l}
