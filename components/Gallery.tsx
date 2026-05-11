@@ -4,7 +4,7 @@ import { useParallax } from '@/hooks/useParallax'
 
 const IMAGES = [
   '/uploads/soldador_2.png',
-  '/uploads/ChatGPT Image 24 abr 2026, 11_57_37.png',
+  '/uploads/bizon_1_3.png',
   '/uploads/viales.png',
 ]
 
